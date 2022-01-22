@@ -11,7 +11,7 @@ sr = 44100
 
 main_dir =  r'D:\Università\MAGISTRALE\DigitalAudioSignalProcessing\Tesina'
 
-ir_dir = os.path.join(main_dir, 'Recorded_IRs')
+ir_dir = os.path.join(main_dir, 'data/test_B')
 output_dir = os.path.join(main_dir, 'Convolution_outputs')
 voices_dir = os.path.join(main_dir, 'Voice_examples')
 
