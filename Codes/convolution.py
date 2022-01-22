@@ -52,7 +52,6 @@ convolved_voice = convolve(example_voice/2, example_ir)
 
 output_path = os.path.join(output_dir, 'convolvedVoice.wav')
 sf.write(output_path, convolved_voice, sr)
-print(max(convolved_voice))
 #%%
 plt.figure()
 plt.subplot(2,1,1)
