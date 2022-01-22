@@ -42,7 +42,7 @@ for audio in os.listdir(audio_dir):
     
     torchaudio.save(audio_path, audio.unsqueeze(dim=0), sr)
     
-#%%
+# TEST COMMENTO
 for image in os.listdir(images_dir):
     image_path = os.path.join(images_dir, image)
     image = torchvision.io.read_image(image_path)
