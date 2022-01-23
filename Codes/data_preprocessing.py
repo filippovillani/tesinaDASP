@@ -2,7 +2,6 @@ import torch
 import os
 import torchaudio
 import torchvision
-import matplotlib.pyplot as plt
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu' 
 
@@ -13,7 +12,7 @@ images_dir = os.path.join(test_data_dir, 'test_A')
 audio_dir = os.path.join(test_data_dir, 'test_B')
 ##################################################################################
 
-#%%
+# AUDIO PREPROCESSING
 # Audio files must be downsampled to 22.050 kHz and converted to monoaural.
 sr = 22050
 max_duration = 5.94 # in seconds
@@ -22,9 +21,14 @@ max_len = int(sr * max_duration)
 for audio in os.listdir(audio_dir):
     audio_path = os.path.join(audio_dir, audio)
     audio, old_sr = torchaudio.load(audio_path)
+    print(audio.shape, old_sr)
+    
     # Rechannel
     if (audio.shape[0] == 2):
         audio = audio.mean(dim=0)
+    
+    elif(audio.shape[0] == 1):
+        audio = audio.squeeze()
     
     # Resample
     if (old_sr != sr):
@@ -42,7 +46,7 @@ for audio in os.listdir(audio_dir):
     
     torchaudio.save(audio_path, audio.unsqueeze(dim=0), sr)
     
-# TEST COMMENTO
+# IMAGE PREPROCESSING
 for image in os.listdir(images_dir):
     image_path = os.path.join(images_dir, image)
     image = torchvision.io.read_image(image_path)

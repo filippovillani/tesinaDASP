@@ -34,6 +34,7 @@ class Image2ReverbDataset(Dataset):
     def __init__(self, dataroot, phase="train", spec="stft"):
         self.root = dataroot
         self.stft = LogMel() if spec == "mel" else STFT()
+        self.phase = phase
 
         ### input A (images)
         dir_A = "_A"
@@ -53,7 +54,7 @@ class Image2ReverbDataset(Dataset):
         A = Image.open(A_path)
         t = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
         A_tensor = t(A.convert("RGB"))
-
+            
         ### input B (audio)
         B_path = self.B_paths[index]
         B, _ = soundfile.read(B_path)

@@ -204,7 +204,7 @@ class Image2Reverb(pl.LightningModule):
                 input_depthmaps.append(img.cpu().squeeze().permute(1, 2, 0)[:,:,-1].squeeze().detach().numpy())
                 examples.append(output["test_examples"][i])
         
-        self.test_callback(examples, t60, spec_images, audio, input_images, input_depthmaps)
+        self.test_callback(examples, spec_images, audio, input_images, input_depthmaps)
     
     @property
     def automatic_optimization(self) -> bool:
