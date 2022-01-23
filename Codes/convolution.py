@@ -15,7 +15,7 @@ ir_dir = os.path.join(main_dir, 'data/test_B')
 output_dir = os.path.join(main_dir, 'Convolution_outputs')
 voices_dir = os.path.join(main_dir, 'Voice_examples')
 
-example_ir_path = os.path.join(ir_dir, 'sala_hobby_dc.wav')
+example_ir_path = os.path.join(ir_dir, 'schubert_small_dc.wav')
 example_voice_path = os.path.join(voices_dir, 'voice01.wav')
 
 example_ir, _ = librosa.load(example_ir_path, sr=sr)
@@ -48,10 +48,12 @@ plt.subplots_adjust(left=0.12,
                     hspace=0.42)
 
 #%%
-convolved_voice = convolve(example_voice/2, example_ir)
+convolved_voice = convolve(example_voice, example_ir)
+convolved_voice /= ((max(convolved_voice) - min(convolved_voice)) / 2)
 
-output_path = os.path.join(output_dir, 'convolvedVoice.wav')
+output_path = os.path.join(output_dir, 'schubert_small_voice.wav')
 sf.write(output_path, convolved_voice, sr)
+print(max(convolved_voice))
 #%%
 plt.figure()
 plt.subplot(2,1,1)
