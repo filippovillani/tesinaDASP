@@ -2,3 +2,4 @@
 **/model.ckpt
 **/resnet50_places365.pth.tar
 **/mono_odom_640x192
+**/convolution.py

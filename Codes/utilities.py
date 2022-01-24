@@ -21,7 +21,7 @@ def plot_frequency_response(true_ir, predicted_ir, output_dir):
     plt.grid(which='both')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude [dB]')
-    plt.title('Recorded Frequency Response')
+    plt.title('Recorded IR - Frequency Response')
 
     plt.subplot(2,1,2)
     plt.semilogx(predicted_fr[:int(0.5*len(predicted_fr))])
@@ -29,7 +29,7 @@ def plot_frequency_response(true_ir, predicted_ir, output_dir):
     plt.grid(which='both')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Magnitude [dB]')
-    plt.title('Predicted Frequency Response')
+    plt.title('Predicted IR - Frequency Response')
 
     plt.subplots_adjust(left=0.12,
                         bottom=0.14, 
@@ -39,6 +39,38 @@ def plot_frequency_response(true_ir, predicted_ir, output_dir):
                         hspace=0.42)
     
     plt.savefig(os.path.join(output_dir, "frequency_response.png"))
+
+    
+def plot_spectrograms(ir_true, ir_predicted, output_dir, sr=22050):
+    ir_true_spec = librosa.power_to_db(librosa.feature.melspectrogram(ir_true, 
+                                                                      sr = sr, 
+                                                                      n_fft = 1024, 
+                                                                      hop_length = 256,
+                                                                      n_mels = 128), ref=np.max, top_db=80.)
+
+    ir_pred_spec = librosa.power_to_db(librosa.feature.melspectrogram(ir_predicted, 
+                                                                      sr = sr, 
+                                                                      n_fft = 1024, 
+                                                                      hop_length = 256,
+                                                                      n_mels = 128), ref=np.max, top_db=80.) 
+    
+    plt.figure()
+    plt.subplot(2,1,1)
+    librosa.display.specshow(ir_true_spec, hop_length=256, x_axis='s', y_axis='log')
+    plt.title('Recorded IR - Spectrogram')
+    plt.subplot(2,1,2)
+    librosa.display.specshow(ir_pred_spec, hop_length=256, x_axis='s', y_axis='log')
+    plt.title('Predicted IR - Spectrogram')
+    
+    plt.subplots_adjust(left=0.12,
+                        bottom=0.14, 
+                        right=0.96, 
+                        top=0.94, 
+                        wspace=0.2, 
+                        hspace=0.42)
+    
+    plt.savefig(os.path.join(output_dir, "spectrogram.png"))
+    
     
 def convolve_speech_and_ir(ir_true, ir_predicted, speech, output_dir, sr=22050):
     

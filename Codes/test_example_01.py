@@ -6,7 +6,7 @@ from pytorch_lightning import Trainer
 import matplotlib.pyplot as plt
 import librosa
 import soundfile as sf
-from utilities import plot_frequency_response, convolve_speech_and_ir
+from utilities import plot_frequency_response, convolve_speech_and_ir, plot_spectrograms
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu' 
 
@@ -55,5 +55,6 @@ for i, out_path in enumerate(os.listdir(output_dir)):
     ir_true_path = os.path.join(ir_true_dir, os.listdir(ir_true_dir)[i])
     ir_true, _ = librosa.load(ir_true_path, sr=22050)
     plot_frequency_response(ir_true, ir_predicted[i], os.path.join(output_dir, out_path))
+    plot_spectrograms(ir_true, ir_predicted[i], os.path.join(output_dir, out_path))
     speech, _ = librosa.load(speech_path, sr=22050)
     convolve_speech_and_ir(ir_true, ir_predicted[i], speech, os.path.join(output_dir, out_path))
