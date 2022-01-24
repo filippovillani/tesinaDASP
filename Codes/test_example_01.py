@@ -18,6 +18,7 @@ ir_true_dir = os.path.join(test_data_dir, 'test_B')
 encoder_path = os.path.join(main_dir, 'resnet50_places365.pth.tar')
 depthmodel_path = os.path.join(main_dir, 'mono_odom_640x192')
 speech_dir = os.path.join(main_dir, 'Voice_examples')
+speech_path = os.path.join(speech_dir, 'voice01.wav')
 
 output_dir = os.path.join(main_dir, 'image2reverb_outputs')
 ##################################################################################
@@ -47,9 +48,8 @@ model.load_state_dict(m['state_dict'])
 trainer = Trainer(gpus=1)
 trainer.test(model, test_dataset)
 
-#%%
+# Plot spectrograms, frequency responses and save convolved speeches
 ir_true_path = []
-speech_path = os.path.join(speech_dir, 'voice01.wav')
 
 for i, out_path in enumerate(os.listdir(output_dir)):
     ir_true_path = os.path.join(ir_true_dir, os.listdir(ir_true_dir)[i])
