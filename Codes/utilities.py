@@ -41,7 +41,7 @@ def plot_frequency_response(true_ir, predicted_ir, output_dir):
     plt.savefig(os.path.join(output_dir, "frequency_response.png"))
 
     
-def plot_spectrograms(ir_true, ir_predicted, output_dir, sr=22050):
+def plot_spectrograms(ir_true, ir_predicted, output_dir, sr=22050, ir=True):
     ir_true_spec = librosa.power_to_db(librosa.feature.melspectrogram(ir_true, 
                                                                       sr = sr, 
                                                                       n_fft = 1024, 
@@ -57,10 +57,10 @@ def plot_spectrograms(ir_true, ir_predicted, output_dir, sr=22050):
     plt.figure()
     plt.subplot(2,1,1)
     librosa.display.specshow(ir_true_spec, hop_length=256, x_axis='s', y_axis='log')
-    plt.title('Recorded IR - Spectrogram')
+    plt.title('Recorded IR')
     plt.subplot(2,1,2)
     librosa.display.specshow(ir_pred_spec, hop_length=256, x_axis='s', y_axis='log')
-    plt.title('Predicted IR - Spectrogram')
+    plt.title('Predicted IR')
     
     plt.subplots_adjust(left=0.12,
                         bottom=0.14, 
@@ -69,7 +69,10 @@ def plot_spectrograms(ir_true, ir_predicted, output_dir, sr=22050):
                         wspace=0.2, 
                         hspace=0.42)
     
-    plt.savefig(os.path.join(output_dir, "spectrogram.png"))
+    if ir:
+        plt.savefig(os.path.join(output_dir, "spectrogram.png"))
+    else:
+        plt.savefig(os.path.join(output_dir, "wet_voices_spectrogram.png"))
     
     
 def convolve_speech_and_ir(ir_true, ir_predicted, speech, output_dir, sr=22050):
@@ -80,5 +83,8 @@ def convolve_speech_and_ir(ir_true, ir_predicted, speech, output_dir, sr=22050):
     
     convolved_voice_pred = convolve(speech, ir_predicted)
     convolved_voice_pred /= ((max(convolved_voice_pred) - min(convolved_voice_pred)) / 2)
-    sf.write(os.path.join(output_dir, 'wet_voice_predicted.wav'), convolved_voice_pred, sr)  
+    sf.write(os.path.join(output_dir, 'wet_voice_predicted.wav'), convolved_voice_pred, sr) 
+    
+    plot_spectrograms(convolved_voice_true, convolved_voice_pred, output_dir, sr=sr, ir=False)
+    
     
