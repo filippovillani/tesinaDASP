@@ -57,10 +57,16 @@ def plot_spectrograms(ir_true, ir_predicted, output_dir, sr=22050, ir=True):
     plt.figure()
     plt.subplot(2,1,1)
     librosa.display.specshow(ir_true_spec, hop_length=256, x_axis='s', y_axis='log')
-    plt.title('Recorded IR')
+    if ir:
+        plt.title('Recorded IR Spectrogram')
+    else:
+        plt.title('Voice convolved with recorded IR')
     plt.subplot(2,1,2)
     librosa.display.specshow(ir_pred_spec, hop_length=256, x_axis='s', y_axis='log')
-    plt.title('Predicted IR')
+    if ir:
+        plt.title('Predicted IR Spectrogram')
+    else:
+        plt.title('Voice convolved with predicted IR')
     
     plt.subplots_adjust(left=0.12,
                         bottom=0.14, 
